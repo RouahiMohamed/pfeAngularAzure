@@ -1,0 +1,51 @@
+<div class="container">
+  <form [formGroup]="virtualNetworkForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="region">Region</label>
+      <select formControlName="region" id="region" class="form-control">
+        <option *ngFor="let region of regions" [value]="region.id">{{ region.name }}</option>
+      </select>
+      <div *ngIf="virtualNetworkForm.get('region')?.invalid && virtualNetworkForm.get('region')?.touched" class="text-danger">
+        Region is required
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="subnet">Subnet</label>
+      <select formControlName="subnet" id="subnet" class="form-control">
+        <option *ngFor="let subnet of subnets" [value]="subnet.id">{{ subnet.name }}</option>
+      </select>
+      <div *ngIf="virtualNetworkForm.get('subnet')?.invalid && virtualNetworkForm.get('subnet')?.touched" class="text-danger">
+        Subnet is required
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="resourceGroup">Resource Group</label>
+      <select formControlName="resourceGroup" id="resourceGroup" class="form-control">
+        <option *ngFor="let resourceGroup of resourceGroups" [value]="resourceGroup.id">{{ resourceGroup.name }}</option>
+      </select>
+      <div *ngIf="virtualNetworkForm.get('resourceGroup')?.invalid && virtualNetworkForm.get('resourceGroup')?.touched" class="text-danger">
+        Resource Group is required
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" formControlName="name" id="name" class="form-control">
+      <div *ngIf="virtualNetworkForm.get('name')?.invalid && virtualNetworkForm.get('name')?.touched" class="text-danger">
+        Name is required
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="ipAddresses">IP Addresses</label>
+      <input type="text" formControlName="ipAddresses" id="ipAddresses" class="form-control">
+      <div *ngIf="virtualNetworkForm.get('ipAddresses')?.invalid && virtualNetworkForm.get('ipAddresses')?.touched" class="text-danger">
+        IP Addresses is required
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" [disabled]="!virtualNetworkForm.valid">Create Virtual Network</button>
+  </form>
+</div>

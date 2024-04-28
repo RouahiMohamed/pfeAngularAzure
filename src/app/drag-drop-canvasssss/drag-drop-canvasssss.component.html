@@ -1,0 +1,17 @@
+<div class="drag-drop-canvas">
+  <div class="sidebar">
+    <h2>Available Components</h2>
+    <ul>
+      <li *ngFor="let component of components" cdkDrag [cdkDragData]="component">
+        {{ component.name }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="example-boundary" cdkDropList (cdkDropListDropped)="onDrop($event)">
+    <h2>Working Area</h2>
+    <div class="example-box" *ngFor="let component of placedComponents" cdkDrag [cdkDragData]="component" [style.transform]="getTransform(component)">
+      {{ component.name }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #edf0f5;
+  }
+  
+  .sidebar {
+    background-color: #2c3e50;
+    color: white;
+    width: 250px;
+    height: 100%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logo {
+    padding: 20px;
+    font-weight: bold;
+    background: #34495e;
+  }
+  
+  .menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .menu li {
+    padding: 15px 20px;
+    font-size: 0.95em;
+    border-bottom: 1px solid #3b4c5f;
+    cursor: pointer;
+  }
+  
+  .menu li:hover {
+    background-color: #34495e;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+    background: #fff;
+    height: 100vh;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .toolbar {
+    background-color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: start;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .button-blue, .button-gray {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  
+  .button-blue {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .button-gray {
+    background-color: #95a5a6;
+    color: white;
+  }
+  
+  .code-area {
+    padding: 20px;
+    background: #ecf0f1;
+    height: calc(100vh - 52px); /* Adjust based on toolbar height */
+    box-sizing: border-box;
+  }
+  
+  .file-tab {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 90%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: none;
+  }

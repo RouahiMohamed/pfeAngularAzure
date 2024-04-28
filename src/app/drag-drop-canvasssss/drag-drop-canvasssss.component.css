@@ -1,0 +1,41 @@
+.drag-and-drop-container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  width: 20%;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+}
+
+.design-space {
+  flex: 1;
+  padding: 1rem;
+  border: 1px dotted #080202;
+  padding: 1rem;
+}
+.component {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  border: 1px solid #1c0202;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.component.placed {
+  background-color: #fbf8f8;
+}
+
+.component:cdkDrag {
+  opacity: 0.8;
+}
+
+.component.cdkDragIgnoring {
+  background-color: #ddd;
+}

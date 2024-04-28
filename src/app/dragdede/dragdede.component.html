@@ -1,0 +1,11 @@
+<!-- combined.component.html -->
+<div class="sidebar" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+    <div class="sidebar-item" draggable="true" (dragstart)="onDragStart($event, 'Item 1')">Item 1</div>
+    <div class="sidebar-item" draggable="true" (dragstart)="onDragStart($event, 'Item 2')">Item 2</div>
+    <!-- Add other draggable items similarly -->
+  </div>
+  
+  <div class="canvas">
+    <div *ngFor="let item of items" class="canvas-item" [style.left.px]="item.x" [style.top.px]="item.y" cdkDrag>{{ item.item }}</div>
+  </div>
+  

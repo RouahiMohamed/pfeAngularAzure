@@ -1,0 +1,15 @@
+<div class="container">
+  <form [formGroup]="resourceGroupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="region">Region</label>
+      <select formControlName="region" id="region" class="form-control">
+        <option *ngFor="let region of regions" [value]="region.id">{{region.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" formControlName="name" id="name" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!resourceGroupForm.valid">Submit</button>
+  </form>
+</div>

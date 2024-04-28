@@ -1,0 +1,42 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+const API_URL = 'http://localhost:8093/api/virtualMachines/';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
+
+@Injectable({
+  providedIn: 'root'
+})
+export class VirtualMachineService {
+
+  constructor(private http: HttpClient) { }
+
+  getAllVirtualMachines(): Observable<any> {
+    return this.http.get(API_URL + 'showAllVms', httpOptions);
+  }
+
+  getVirtualMachineById(id: string): Observable<any> {
+    return this.http.get(API_URL + 'showVm/' + id, httpOptions);
+  }
+
+  createVirtualMachine(name: string, region: any, resourceGroupe: any, idImage: any, 
+    virtualNetwork: any, username: string, password: string, 
+    idDiskSize: any, user:any): Observable<any> {
+
+const virtualMachine = { name, region, resourceGroupe, idImage, virtualNetwork, username, password, idDiskSize,user };
+
+// Use the constructed object in the POST request
+return this.http.post(API_URL + 'addVm', virtualMachine, httpOptions);
+}
+
+
+  deleteVirtualMachineById(id: string): Observable<any> {
+    return this.http.delete(API_URL + 'deleteVm/' + id, httpOptions);
+  }
+
+  // Additional methods to interact with your API can be added here
+}

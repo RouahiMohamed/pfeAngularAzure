@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>Modifier la région</h2>
+  
+    <form (ngSubmit)="updateRegion()">
+      <div class="form-group">
+        <label for="displayName">Display Name:</label>
+        <input type="text" class="form-control" id="displayName" [(ngModel)]="region.displayName" name="displayName">
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="region.name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="regionalDisplayName">Regional Display Name:</label>
+        <input type="text" class="form-control" id="regionalDisplayName" [(ngModel)]="region.regionalDisplayName" name="regionalDisplayName">
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Modifier</button>
+    </form>
+  </div>
+  

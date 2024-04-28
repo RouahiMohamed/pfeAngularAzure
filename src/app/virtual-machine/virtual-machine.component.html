@@ -1,0 +1,52 @@
+<div class="container mt-3">
+    <h2>Create Virtual Machine</h2>
+    <form [formGroup]="virtualMachineForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label for="region">Region</label>
+        <select class="form-control" id="region" formControlName="idRegion" (change)="onRegionChange()">
+          <option *ngFor="let region of regions" [value]="region.id">{{ region.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="resourceGroup">Resource Group</label>
+        <select class="form-control" id="resourceGroup" formControlName="idRessourceGroupe">
+          <option *ngFor="let resourceGroup of resourceGroups" [value]="resourceGroup.id">{{ resourceGroup.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="image">Image</label>
+        <select class="form-control" id="image" formControlName="idImage">
+          <option *ngFor="let image of images" [value]="image.id">{{ image.urnAlias }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="virtualNetwork">Virtual Network</label>
+        <div class="input-group">
+          <select class="form-control" id="virtualNetwork" formControlName="idVirtualNetwork">
+            <option *ngFor="let virtualNetwork of virtualNetworks" [value]="virtualNetwork.id">{{ virtualNetwork.name }}</option>
+          </select>
+          <button type="button" class="btn btn-secondary ml-2" (click)="openDialog()">Add New</button>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" formControlName="username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" formControlName="password">
+      </div>
+      <div class="form-group">
+        <label for="diskSize">Disk Size</label>
+        <select class="form-control" id="diskSize" formControlName="idDiskSize">
+          <option *ngFor="let diskSize of diskSizes" [value]="diskSize.id">{{ diskSize.name }}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3" [disabled]="!virtualMachineForm.valid">Create Virtual Machine</button>
+    </form>
+</div>

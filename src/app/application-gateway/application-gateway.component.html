@@ -1,0 +1,61 @@
+<div class="container mt-3">
+  <h2>Create Application Gateway</h2>
+  <form [formGroup]="applicationGatewayForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+      <div *ngIf="applicationGatewayForm.get('name')?.invalid && applicationGatewayForm.get('name')?.touched" class="text-danger">
+        Name is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="region">Region</label>
+      <select class="form-control" id="region" formControlName="region">
+        <option *ngFor="let region of regions" [ngValue]="region">{{ region?.name }}</option>
+      </select>
+      <div *ngIf="applicationGatewayForm.get('region')?.invalid && applicationGatewayForm.get('region')?.touched" class="text-danger">
+        Region is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="resourceGroup">Resource Group</label>
+      <select class="form-control" id="resourceGroup" formControlName="resourceGroup">
+        <option *ngFor="let resourceGroup of resourceGroups" [ngValue]="resourceGroup">{{ resourceGroup?.name }}</option>
+      </select>
+      <div *ngIf="applicationGatewayForm.get('resourceGroup')?.invalid && applicationGatewayForm.get('resourceGroup')?.touched" class="text-danger">
+        Resource Group is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="virtualNetwork">Virtual Network</label>
+      <select class="form-control" id="virtualNetwork" formControlName="virtualNetwork">
+        <option *ngFor="let virtualNetwork of virtualNetworks" [ngValue]="virtualNetwork">{{ virtualNetwork?.name }}</option>
+      </select>
+      <div *ngIf="applicationGatewayForm.get('virtualNetwork')?.invalid && applicationGatewayForm.get('virtualNetwork')?.touched" class="text-danger">
+        Virtual Network is required
+      </div>
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="autoscaling" formControlName="autoscaling">
+      <label class="form-check-label" for="autoscaling">Autoscaling</label>
+    </div>
+   <div class="form-row">
+  <div class="col">
+    <label for="minimum_Instance_Count">Minimum Instance Count</label>
+    <input type="number" class="form-control" id="minimum_Instance_Count" formControlName="minimum_Instance_Count">
+    <div *ngIf="applicationGatewayForm.get('minimum_Instance_Count')?.invalid && applicationGatewayForm.get('minimum_Instance_Count')?.touched" class="text-danger">
+      Minimum Instance Count must be greater than or equal to 0
+    </div>
+  </div>
+  <div class="col">
+    <label for="maximum_Instance_Count">Maximum Instance Count</label>
+    <input type="number" class="form-control" id="maximum_Instance_Count" formControlName="maximum_Instance_Count">
+    <div *ngIf="applicationGatewayForm.get('maximum_Instance_Count')?.invalid && applicationGatewayForm.get('maximum_Instance_Count')?.touched" class="text-danger">
+      Maximum Instance Count must be greater than or equal to 1
+    </div>
+  </div>
+</div>
+
+    <button type="submit" class="btn btn-primary mt-3" [disabled]="!applicationGatewayForm.valid">Create Application Gateway</button>
+  </form>
+</div>

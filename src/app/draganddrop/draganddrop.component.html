@@ -1,0 +1,12 @@
+<div class="content">
+  <div class="sidebar" cdkDropList>
+    <div class="sidebar-item" *ngFor="let item of sidebarItems" cdkDrag>
+      {{ item }}
+    </div>
+  </div>
+  <div class="canvas" cdkDropList>
+    <div class="canvas-item" *ngFor="let item of canvasItems" cdkDrag>
+      {{ item }}
+    </div>
+  </div>
+</div>

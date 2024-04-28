@@ -1,0 +1,45 @@
+
+<div class="container mt-3">
+    <h2>Create Architecture</h2>
+    <form [formGroup]="architectureForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name">
+        </div>
+        <div class="form-group">
+            <label for="dateCreation">Date Creation</label>
+            <input type="date" class="form-control" id="dateCreation" formControlName="dateCreation">
+        </div>
+        <div class="form-group">
+            <label for="resourceGroups">Resource Groups</label>
+            <select class="form-control" id="resourceGroups" formControlName="resourceGroups" multiple>
+                <option *ngFor="let resourceGroup of resourceGroups" [value]="resourceGroup.id">{{ resourceGroup.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="virtualMachines">Virtual Machines</label>
+            <select class="form-control" id="virtualMachines" formControlName="virtualMachines" multiple>
+                <option *ngFor="let virtualMachine of virtualMachines" [value]="virtualMachine.id">{{ virtualMachine.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="virtualNetworks">Virtual Networks</label>
+            <select class="form-control" id="virtualNetworks" formControlName="virtualNetworks" multiple>
+                <option *ngFor="let virtualNetwork of virtualNetworks" [value]="virtualNetwork.id">{{ virtualNetwork.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="applicationGateways">Application Gateways</label>
+            <select class="form-control" id="applicationGateways" formControlName="applicationGateways" multiple>
+                <option *ngFor="let applicationGateway of applicationGateways" [value]="applicationGateway.id">{{ applicationGateway.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subnets">Subnets</label>
+            <select class="form-control" id="subnets" formControlName="subnets" multiple>
+                <option *ngFor="let subnet of subnets" [value]="subnet.id">{{ subnet.name }}</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3" [disabled]="!architectureForm.valid">Create Architecture</button>
+    </form>
+</div>
