@@ -16,8 +16,8 @@ export class VirtualNetworkService {
   constructor(private http: HttpClient) { }
 
  
-  createVirtualNetwork(name: string, ipAddresses: string, subnet:any,  resourceGroup:any, region:any ): Observable<any> {
-    return this.http.post(API_URL + 'add', { name, ipAddresses, subnet, resourceGroup, region  }, httpOptions);
+  createVirtualNetwork(name: string, ipAddresses: string,  resourceGroup:any, region:any, user: any ): Observable<any> {
+    return this.http.post(API_URL + 'add', { name, ipAddresses,  resourceGroup, region ,user }, httpOptions);
   }
   getVirtualNetwork(id: string): Observable<any> {
     return this.http.get(API_URL + 'get/' + id, httpOptions);

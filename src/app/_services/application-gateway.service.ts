@@ -15,12 +15,12 @@ export class ApplicationGatewayService {
 
   constructor(private http: HttpClient) { }
 
-  createApplicationGateway(name :String, region:any, resourceGroupe:any, virtualNetwork:any,
+  createApplicationGateway(name :String, region:any, resourceGroupe:any, subnet:any,
     autoscaling: boolean,
     minimum_Instance_Count: Number,
-     maximum_Instance_Count: Number): Observable<any> {
-    return this.http.post(API_URL + 'add',{name, region,resourceGroupe,virtualNetwork,
-      autoscaling,minimum_Instance_Count,maximum_Instance_Count} , httpOptions);
+     maximum_Instance_Count: Number, user:any): Observable<any> {
+    return this.http.post(API_URL + 'add',{name, region,resourceGroupe,subnet,
+      autoscaling,minimum_Instance_Count,maximum_Instance_Count,user} , httpOptions);
   }
 
   getApplicationGateway(id: string): Observable<any> {

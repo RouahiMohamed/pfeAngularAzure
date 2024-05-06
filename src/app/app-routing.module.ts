@@ -21,14 +21,11 @@ import { VmssComponent } from './vmss/vmss.component';
 import { OsMachineComponent } from './Admin/os-machine/os-machine.component';
 import { RegionComponent } from './Admin/region/region.component';
 import { DiskComponent } from './Admin/disk/disk.component';
-import { DraganddropComponent } from './draganddrop/draganddrop.component';
-import { CanvasComponent } from './canvas/canvas.component';
-import { DragDroppppComponent } from './drag-dropppp/drag-dropppp.component';
-import { DragOOOOComponent } from './drag-oooo/drag-oooo.component';
-import { DragdedeComponent } from './dragdede/dragdede.component';
-import { DragDropCanvasssssComponent } from './drag-drop-canvasssss/drag-drop-canvasssss.component';
-import { DragDropeyaaaComponent } from './drag-dropeyaaa/drag-dropeyaaa.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
+
+import { DragDropeyaaaComponent } from './drag-dropArchitecture/drag-dropArchitecture';
+import { ArchitectureDesignComponent } from './architecture-design/architecture-design.component';
+
+
 
 
 const routes: Routes = [
@@ -40,31 +37,27 @@ const routes: Routes = [
      { path: 'disks', component: DiskComponent },
      { path: 'subnet', component: SubnetComponent },
      { path: 'os', component: OsMachineComponent },
+     { path: 'design', component: ArchitectureDesignComponent },
+     { path: 'tajrba2', component: DragDropeyaaaComponent },
      { path: 'vm', component: VirtualMachineComponent },
      { path: 'dashbord', component: DashbordComponent }]},
   { path: 'landing', component: LandingpageComponent },
   { path: 'disks', component: DiskComponent },
   { path: 'login', component: LoginComponent },
   { path: 'regionet', component: RegionComponent },
-  { path: 'drag', component: DraganddropComponent },
-  { path: 'dragdrop', component: DragDroppppComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'os', component: OsMachineComponent },
   { path: 'forgot', component: ForgetPasswordComponent },
   { path: 'resetPassword', component: ResetPasswordComponent },
   { path: 'ressource', component: RessourceGroupComponent },
   { path: 'subnet', component: SubnetComponent },
-  { path: 'canvas', component: CanvasComponent },
   { path: 'virtualNetwork', component: VirtualNetworkComponent },
   { path: 'applicationGateway', component: ApplicationGatewayComponent },
   { path: 'vm', component: VirtualMachineComponent },
   { path: 'vmss', component: VmssComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: 'dra', component: DragOOOOComponent },
-  { path: 'draww', component: DragdedeComponent },
-  { path: 'abdou', component: SidebarComponent },
-  { path: 'eya', component: DragDropeyaaaComponent },
-  { path: 'tajrba', component: DragDropCanvasssssComponent },
+  { path: 'tajrba2', component: DragDropeyaaaComponent },
+  { path: 'design', component: ArchitectureDesignComponent },
   { path: 'architecture', component: ArhcitectureComponent },
   { path: '', redirectTo: 'landing', pathMatch: 'full' }
 ];

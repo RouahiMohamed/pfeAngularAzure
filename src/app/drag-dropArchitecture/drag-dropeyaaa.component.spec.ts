@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DragOOOOComponent } from './drag-oooo.component';
+import { DragDropeyaaaComponent } from './drag-dropArchitecture';
 
-describe('DragOOOOComponent', () => {
-  let component: DragOOOOComponent;
-  let fixture: ComponentFixture<DragOOOOComponent>;
+describe('DragDropeyaaaComponent', () => {
+  let component: DragDropeyaaaComponent;
+  let fixture: ComponentFixture<DragDropeyaaaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DragOOOOComponent]
+      declarations: [DragDropeyaaaComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DragOOOOComponent);
+    fixture = TestBed.createComponent(DragDropeyaaaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

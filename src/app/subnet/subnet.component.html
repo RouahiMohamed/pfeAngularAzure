@@ -1,4 +1,10 @@
-<div class="container">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Add subnet</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
     <form [formGroup]="subnetForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="name">Name</label>
@@ -8,7 +14,18 @@
         <label for="address">Address</label>
         <input type="text" formControlName="address" id="address" class="form-control">
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="!subnetForm.valid">Create Subnet</button>
+      <div class="form-group">
+        <label for="virtualNetworks">Virtual Networks</label>
+        <select class="form-control" id="virtualNetworks" formControlName="virtualNetworks" multiple>
+            <option *ngFor="let virtualNetwork of virtualNetworks" [value]="virtualNetwork.id">{{ virtualNetwork.name }}</option>
+        </select>
+    </div>
     </form>
   </div>
-  
+</div>
+<div class="modal-footer">
+ 
+  <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close</button>
+  <button type="submit" class="btn btn-primary"[disabled]="!subnetForm.valid" (click)="onSubmit()">Add</button>
+</div>
+</div>

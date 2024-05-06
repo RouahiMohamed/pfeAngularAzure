@@ -24,10 +24,10 @@ export class VirtualMachineService {
   }
 
   createVirtualMachine(name: string, region: any, resourceGroupe: any, idImage: any, 
-    virtualNetwork: any, username: string, password: string, 
+    subnet:any, username: string, password: string, 
     idDiskSize: any, user:any): Observable<any> {
 
-const virtualMachine = { name, region, resourceGroupe, idImage, virtualNetwork, username, password, idDiskSize,user };
+const virtualMachine = { name, region, resourceGroupe, idImage, subnet, username, password, idDiskSize,user };
 
 // Use the constructed object in the POST request
 return this.http.post(API_URL + 'addVm', virtualMachine, httpOptions);

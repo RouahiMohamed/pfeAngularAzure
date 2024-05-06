@@ -28,7 +28,7 @@ import { RessourceGroupComponent } from './ressource-group/ressource-group.compo
 import { VmssComponent } from './vmss/vmss.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ApplicationGatewayComponent } from './application-gateway/application-gateway.component';
-import { AddVirtualNetworkDialogComponent } from './add-virtual-network-dialog/add-virtual-network-dialog.component';
+
 import { ArhcitectureComponent } from './arhcitecture/arhcitecture.component';
 import { OsMachineComponent } from './Admin/os-machine/os-machine.component'; 
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -44,20 +44,14 @@ import { AddDiskComponent } from './Admin/add-disk/add-disk.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { DraganddropComponent } from './draganddrop/draganddrop.component';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
-import { CanvasComponent } from './canvas/canvas.component';
 import { DropdownModule } from 'primeng/dropdown';
-import { DragDroppppComponent } from './drag-dropppp/drag-dropppp.component';
-import { DragOOOOComponent } from './drag-oooo/drag-oooo.component';
-import { DragdedeComponent } from './dragdede/dragdede.component';
-import { DragDropCanvasComponent } from './drag-drop-canvas/drag-drop-canvas.component';
-import { DragDropCanvasssssComponent } from './drag-drop-canvasssss/drag-drop-canvasssss.component';
-import { DragDropeyaaaComponent } from './drag-dropeyaaa/drag-dropeyaaa.component';
+import { DragDropeyaaaComponent } from './drag-dropArchitecture/drag-dropArchitecture';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ArchitectureDesignComponent } from './architecture-design/architecture-design.component';
 
 
 
@@ -79,7 +73,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     RessourceGroupComponent,
     VmssComponent,
     ApplicationGatewayComponent,
-    AddVirtualNetworkDialogComponent,
+    
     ArhcitectureComponent,
     OsMachineComponent,
     AddOsMachineComponent,
@@ -90,15 +84,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     UpdateDiskComponent,
     AddDiskComponent,
     RegionComponent,
-    DraganddropComponent,
-    CanvasComponent,
-    DragDroppppComponent,
-    DragOOOOComponent,
-    DragdedeComponent,
-    DragDropCanvasComponent,
-    DragDropCanvasssssComponent,
     DragDropeyaaaComponent,
     SidebarComponent,
+    ArchitectureDesignComponent,
    
     
   ],

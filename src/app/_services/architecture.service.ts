@@ -17,7 +17,7 @@ export class ArchitectureService {
 
   constructor(private http: HttpClient) { }
 
-  createArchitecture(name: string, dateCreation: Date, resourceGroups: string[], vmsses: string[], virtualMachines: string[], virtualNetworks: string[], applicationGateways: string[], subnets: string[]): Observable<any> {
+  createArchitecture(name: string, dateCreation: Date, resourceGroups: string[], vmsses: string[], virtualMachines: string[], virtualNetworks: string[], applicationGateways: string[], subnets: string[],user:any): Observable<any> {
     return this.http.post(API_URL + 'add', { 
       name,
       dateCreation,
@@ -27,6 +27,7 @@ export class ArchitectureService {
       virtualNetworks,
       applicationGateways,
       subnets, 
+      user
       
     }, httpOptions);
   }  

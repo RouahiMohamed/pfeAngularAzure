@@ -8,6 +8,7 @@ import { VirtualNetworkService } from '../_services/virtual-network.service';
 import { SubnetService } from '../_services/subnet.service';
 import { ArchitectureService } from '../_services/architecture.service';
 import { ApplicationGatewayService } from '../_services/application-gateway.service';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-arhcitecture',
@@ -15,7 +16,7 @@ import { ApplicationGatewayService } from '../_services/application-gateway.serv
   styleUrls: ['./arhcitecture.component.css']
 })
 export class ArhcitectureComponent implements OnInit {
- 
+  currentUser: any;
   architectureForm: FormGroup;
   resourceGroups: any[] = [];
   virtualNetworks: any[] = [];
@@ -29,7 +30,7 @@ export class ArhcitectureComponent implements OnInit {
     private architectureService: ArchitectureService,
     private virtualNetworkService: VirtualNetworkService,
     private applicationGatwayService: ApplicationGatewayService,
-    private subnetService: SubnetService) {
+    private subnetService: SubnetService,  private storageService: StorageService) {
     this.architectureForm = this.formBuilder.group({
       name: ['', Validators.required],
       dateCreation: ['', Validators.required],
@@ -39,6 +40,7 @@ export class ArhcitectureComponent implements OnInit {
       virtualNetworks: [[]],
       applicationGateways: [[]],
       subnets: [[]],
+      user: ['', Validators.required],
     });
   }
   
@@ -48,6 +50,10 @@ export class ArhcitectureComponent implements OnInit {
     this.loadSubnets();
     this.loadVirtualMachine();
     this.loadApplicationGateway();
+    this.currentUser = this.storageService.getUser(); 
+    if (this.currentUser && this.currentUser.id) {
+      this.architectureForm.get('user')?.setValue(this.currentUser.id);
+    }
   }
   loadApplicationGateway():void{
     this.applicationGatwayService.getAllApplicationGateways().subscribe(data => {
@@ -87,7 +93,8 @@ export class ArhcitectureComponent implements OnInit {
         this.architectureForm.value.virtualMachines,
         this.architectureForm.value.virtualNetworks,
         this.architectureForm.value.applicationGateways,
-        this.architectureForm.value.subnets
+        this.architectureForm.value.subnets,
+        this.architectureForm.value.user
       ).subscribe({
         next: (result) => console.log('Architecture created:', result),
         error: (error) => console.error('Error creating architecture:', error)

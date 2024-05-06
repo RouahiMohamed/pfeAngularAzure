@@ -1,4 +1,10 @@
-<div class="container mt-3">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Add Vmss</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+      </div>
+      <div class="modal-body">
+<div class="container">
     <h2>Create Virtual Machine</h2>
     <form [formGroup]="virtualMachineForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -24,12 +30,12 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="virtualNetwork">Virtual Network</label>
-        <div class="input-group">
-          <select class="form-control" id="virtualNetwork" formControlName="idVirtualNetwork">
-            <option *ngFor="let virtualNetwork of virtualNetworks" [value]="virtualNetwork.id">{{ virtualNetwork.name }}</option>
-          </select>
-          <button type="button" class="btn btn-secondary ml-2" (click)="openDialog()">Add New</button>
+        <label for="subnet">Subnet</label>
+        <select formControlName="subnet" id="subnet" class="form-control">
+          <option *ngFor="let subnet of subnets" [value]="subnet.id">{{ subnet.name }}</option>
+        </select>
+        <div *ngIf="virtualMachineForm.get('subnet')?.invalid && virtualMachineForm.get('subnet')?.touched" class="text-danger">
+          Subnet is required
         </div>
       </div>
       
@@ -47,6 +53,12 @@
           <option *ngFor="let diskSize of diskSizes" [value]="diskSize.id">{{ diskSize.name }}</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary mt-3" [disabled]="!virtualMachineForm.valid">Create Virtual Machine</button>
     </form>
-</div>
+  </div>
+  <div class="modal-footer">
+   
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close</button>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!virtualMachineForm.valid">Add</button>
+  </div>
+  </div>
+  

@@ -1,6 +1,7 @@
 .drag-and-drop-container {
   display: flex;
   width: 100%;
+  background-image: none;
 }
 
 .sidebar {
@@ -11,6 +12,7 @@
 
 .sidebar h2 {
   margin-bottom: 1rem;
+  color: #0693ff;
 }
 
 .design-space {
@@ -23,19 +25,32 @@
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
   cursor: grab;
-  border: 1px solid #1c0202;
+  border: 1px solid #0693ff;
   border-radius: 4px;
-  background-color: #fff;
+ 
+  text-align: center;
 }
 
 .component.placed {
-  background-color: #fbf8f8;
+  background-image: none;
+  border: 1px solid #ffffff;
 }
 
 .component:cdkDrag {
   opacity: 0.8;
 }
-
+.component-image {
+  background-image: none;
+  width: 60px;
+  height: 60px;
+}
 .component.cdkDragIgnoring {
   background-color: #ddd;
+}
+.component-name {
+  font-family: 'Arial', sans-serif; /* Change font family */
+  color: black; /* Change font color to black */
+  font-size: 16px; /* Change font size to 16px */
+  margin-top: 5px;
+  text-align: center;
 }

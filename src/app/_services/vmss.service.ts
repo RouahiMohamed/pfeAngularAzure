@@ -16,8 +16,8 @@ export class VmssService {
 
   constructor(private http: HttpClient) { }
 
-  createVmss(virtualMachine: any, name: string, nb_vm:Number): Observable<any> {
-    return this.http.post(API_URL + 'addVmss', { virtualMachine, name , nb_vm}, httpOptions);
+  createVmss(virtualMachine: any, name: string, nb_vm:Number, user: any): Observable<any> {
+    return this.http.post(API_URL + 'addVmss', { virtualMachine, name , nb_vm, user}, httpOptions);
   }
 
   getVmssById(id: string): Observable<any> {
