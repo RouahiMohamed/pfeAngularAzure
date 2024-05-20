@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApplicationGatewayService } from '../_services/application-gateway.service';
 import { RegionService } from '../_services/region.service';
@@ -6,6 +6,9 @@ import { RessourceGroupeService } from '../_services/ressource-groupe.service';
 import { SubnetService } from '../_services/subnet.service';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { StorageService } from '../_services/storage.service';
+import { FormDataService } from '../_services/form-data.service';
+import { ArchitectureDataService } from '../_services/architecture-data-service.service';
+import { LocalStorageService } from 'ngx-webstorage';
 @Component({
   selector: 'app-application-gateway',
   templateUrl: './application-gateway.component.html',
@@ -17,14 +20,15 @@ export class ApplicationGatewayComponent implements OnInit {
   resourceGroups: any[] = [];
   subnets: any[] = [];
   currentUser: any;
-
-  constructor(private applicationGatewayService: ApplicationGatewayService, private regionService: RegionService,
-    public modalRef: MdbModalRef<ApplicationGatewayComponent>,private resourceGroupService: RessourceGroupeService,
-    private subnetService: SubnetService,  private storageService: StorageService ) {
+  @Input() component: any; 
+  @Input() placedComponents: any[] = []; 
+  constructor(private regionService: RegionService,
+    public modalRef: MdbModalRef<ApplicationGatewayComponent>,private formDataService: FormDataService,
+    private storageService: StorageService ,private localStorage: LocalStorageService) {
   this.applicationGatewayForm = new FormGroup({
   name: new FormControl('', Validators.required),
   region: new FormControl('', Validators.required),
-  resourceGroup: new FormControl('', Validators.required),
+  resourceGroupe: new FormControl('', Validators.required),
   subnet: new FormControl('', Validators.required),
   autoscaling: new FormControl(false),
   minimum_Instance_Count: new FormControl(0, [Validators.required, Validators.min(0)]),
@@ -34,50 +38,50 @@ export class ApplicationGatewayComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadRegions();
+   
     this.loadResourceGroups();
     this.loadSubnets();
-    this.currentUser = this.storageService.getUser(); // Get the logged-in user
-    // Initialize the 'user' field with the ID of the logged-in user
-    if (this.currentUser && this.currentUser.id) {
-      this.applicationGatewayForm.get('user')?.setValue(this.currentUser.id);
-    }
-  }
-
-  loadRegions(): void {
     this.regionService.getAllRegions().subscribe(data => {
       this.regions = data;
     });
+    this.currentUser = this.storageService.getUser(); 
+    if (this.currentUser && this.currentUser.id) {
+      this.applicationGatewayForm.get('user')?.setValue(this.currentUser.id);
+    }
+    const storedData = this.localStorage.retrieve('applicationGatewayData' + this.component.id);
+    if (storedData) {
+      this.applicationGatewayForm.patchValue(storedData);
+    } else {
+      this.applicationGatewayForm.reset();
+    }
+  
   }
 
-  loadSubnets(): void {
-    this.subnetService.getAllSubnets().subscribe(data => {
-      this.subnets = data;
-    });
+   loadSubnets(): void {
+    this.subnets = this.placedComponents.filter
+    (component => component.type === 'Subnet');
+    console.log(this.subnets);
   }
   
   loadResourceGroups(): void {
-    this.resourceGroupService.getAllResourceGroups().subscribe(data => {
-      this.resourceGroups = data;
-    });
+    this.resourceGroups = this.placedComponents.filter
+    (component => component.type === 'ressourceGroup');
+    console.log(this.resourceGroups);
   }
-
-  onSubmit(): void {
-    if (this.applicationGatewayForm.valid) {
-      this.applicationGatewayService.createApplicationGateway(
-        this.applicationGatewayForm.value.name,
-        this.applicationGatewayForm.value.region,
-        this.applicationGatewayForm.value.resourceGroup,
-        this.applicationGatewayForm.value.subnet,
-        this.applicationGatewayForm.value.autoscaling,
-        this.applicationGatewayForm.value.minimum_Instance_Count,
-        this.applicationGatewayForm.value.maximum_Instance_Count,
-        this.applicationGatewayForm.value.user
-      ).subscribe({
-        next: (result) => console.log('Application Gateway Created', result),
-        error: (error) => console.error('Error creating application gateway', error)
-      });
-      this.modalRef.close(true);
-    }
-  }
+  onSubmit() {
+    const formData = this.applicationGatewayForm.value;
+    const subnetData = this.localStorage.retrieve('subnetData' + formData.subnet);
+    formData.subnet = subnetData;
+    const resourceGroupData = this.localStorage.retrieve('resourceGroupData' + formData.resourceGroupe);
+    formData.resourceGroupe = resourceGroupData;
+   
+try {
+  this.localStorage.store('applicationGatewayData' + this.component.id, formData);
+  console.log(this.component.id, formData);
+} catch (error) {
+  console.error('Error storing data in local storage:', error);
+}
+this.modalRef.close();
+}
+  
 }

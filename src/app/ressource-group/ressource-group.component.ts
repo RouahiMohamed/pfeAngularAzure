@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegionService } from '../_services/region.service';
 import { RessourceGroupeService } from '../_services/ressource-groupe.service';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { StorageService } from '../_services/storage.service';
+import { FormDataService } from '../_services/form-data.service';
+import {LocalStorageService} from 'ngx-webstorage';
 
 @Component({
   selector: 'app-ressource-group',
@@ -14,35 +16,49 @@ export class RessourceGroupComponent implements OnInit {
   regions: any[] = [];
   resourceGroupForm: FormGroup;
   currentUser: any;
-
-  constructor(public modalRef: MdbModalRef<RessourceGroupComponent>, private regionService: RegionService, private resourceGroupService: RessourceGroupeService,  private storageService: StorageService) {
+  @Input() component: any;
+  
+  constructor(
+    private localStorage: LocalStorageService,
+    public modalRef: MdbModalRef<RessourceGroupComponent>,
+    private regionService: RegionService,
+        private storageService: StorageService,
+  ) {
     this.resourceGroupForm = new FormGroup({
-      region: new FormControl('', Validators.required), // Mettre à jour le type de contrôle pour correspondre à l'objet complet de la région
+    region: new FormControl('', Validators.required), 
       name: new FormControl('', Validators.required),
       user: new FormControl('', Validators.required) 
     });
   }
 
   ngOnInit() :void{
+   
     this.regionService.getAllRegions().subscribe(data => {
       this.regions = data;
     });
-    this.currentUser = this.storageService.getUser(); // Get the logged-in user
-    // Initialize the 'user' field with the ID of the logged-in user
+    this.currentUser = this.storageService.getUser(); 
     if (this.currentUser && this.currentUser.id) {
       this.resourceGroupForm.get('user')?.setValue(this.currentUser.id);
     }
+    // Use the component's id to retrieve its data from local storage
+    const storedData = this.localStorage.retrieve('resourceGroupData' + this.component.id);
+  if (storedData) {
+    this.resourceGroupForm.patchValue(storedData);
+  } else {
+    this.resourceGroupForm.reset();
   }
+}
 
   onSubmit() {
-    if (this.resourceGroupForm.valid) {
-      const formValue = this.resourceGroupForm.value;
-      const selectedRegion = this.regions.find(region => region.id === formValue.region); // Récupérer l'objet complet de la région
-      this.resourceGroupService.createResourceGroup(selectedRegion, formValue.name, formValue.user).subscribe(result => {
-        console.log('Resource Group Created', result);
-        this.modalRef.close(true);
-        // Vous pouvez ajouter une redirection ou un message de succès ici
-      });
-    }
+          const formData = this.resourceGroupForm.value;
+      try {
+        // Use the component's id to store its data in local storage
+        this.localStorage.store('resourceGroupData' + this.component.id, formData);
+        console.log(this.component.id, formData);
+      } catch (error) {
+        console.error('Error storing data in local storage:', error);
+      }
+      this.modalRef.close();
+    
   }
 }

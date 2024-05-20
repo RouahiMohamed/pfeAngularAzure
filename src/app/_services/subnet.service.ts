@@ -15,8 +15,8 @@ export class SubnetService {
 
   constructor(private http: HttpClient) { }
 
-  createSubnet(name: string, adress: string, virtualNetworks: string[], user: any): Observable<any> {
-    return this.http.post(API_URL + 'add', { name, adress,virtualNetworks, user }, httpOptions);
+  createSubnet(subnet:any): Observable<any> {
+    return this.http.post(API_URL + 'add', subnet, httpOptions);
   }
 
   getSubnet(id: string): Observable<any> {

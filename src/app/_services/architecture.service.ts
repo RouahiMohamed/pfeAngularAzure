@@ -17,19 +17,8 @@ export class ArchitectureService {
 
   constructor(private http: HttpClient) { }
 
-  createArchitecture(name: string, dateCreation: Date, resourceGroups: string[], vmsses: string[], virtualMachines: string[], virtualNetworks: string[], applicationGateways: string[], subnets: string[],user:any): Observable<any> {
-    return this.http.post(API_URL + 'add', { 
-      name,
-      dateCreation,
-      resourceGroups,
-      vmsses,
-      virtualMachines,
-      virtualNetworks,
-      applicationGateways,
-      subnets, 
-      user
-      
-    }, httpOptions);
+  createArchitecture(architectureData: any): Observable<any> {
+    return this.http.post(API_URL + 'add', architectureData, httpOptions);
   }  
 
   getArchitecture(id: string): Observable<any> {
@@ -43,5 +32,10 @@ export class ArchitectureService {
   deleteArchitecture(id: string): Observable<any> {
     return this.http.delete(API_URL + 'delete/' + id, httpOptions);
   }
-
+  generatePulumiCode(architecture: any): Observable<any> {
+    return this.http.post(API_URL +'generate-pulumi-code', architecture,{ responseType: 'text' });
+  }
+  generateTerraformCode(architecture: any): Observable<any> {
+    return this.http.post(API_URL +'generate-terraform-code', architecture,{ responseType: 'text' });
+  }
 }

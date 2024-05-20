@@ -52,6 +52,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DragDropeyaaaComponent } from './drag-dropArchitecture/drag-dropArchitecture';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchitectureDesignComponent } from './architecture-design/architecture-design.component';
+import { ArchitComponent } from './archit/archit.component';
+import { LocalStorageService, NgxWebstorageModule } from 'ngx-webstorage';
 
 
 
@@ -87,6 +89,7 @@ import { ArchitectureDesignComponent } from './architecture-design/architecture-
     DragDropeyaaaComponent,
     SidebarComponent,
     ArchitectureDesignComponent,
+    ArchitComponent,
    
     
   ],
@@ -110,7 +113,8 @@ import { ArchitectureDesignComponent } from './architecture-design/architecture-
     DynamicDialogModule,
     ToastModule,
     MdbModalModule,
-    DropdownModule
+    DropdownModule,
+    NgxWebstorageModule.forRoot(),
   ],
   providers: [httpInterceptorProviders, provideAnimationsAsync(),MdbModalService],
   bootstrap: [AppComponent]

@@ -85,20 +85,12 @@ export class ArhcitectureComponent implements OnInit {
 
   onSubmit(): void {
     if (this.architectureForm.valid) {
-      this.architectureService.createArchitecture(
-        this.architectureForm.value.name,
-        this.architectureForm.value.dateCreation,
-        this.architectureForm.value.resourceGroups,
-        this.architectureForm.value.vmsses,
-        this.architectureForm.value.virtualMachines,
-        this.architectureForm.value.virtualNetworks,
-        this.architectureForm.value.applicationGateways,
-        this.architectureForm.value.subnets,
-        this.architectureForm.value.user
-      ).subscribe({
-        next: (result) => console.log('Architecture created:', result),
-        error: (error) => console.error('Error creating architecture:', error)
-      });
+      let architectureData = this.architectureForm.value;
+      this.architectureService.createArchitecture(architectureData)
+        .subscribe({
+          next: (result) => console.log('Architecture created:', result),
+          error: (error) => console.error('Error creating architecture:', error)
+        });
       this.architectureForm.reset();
     }
   }

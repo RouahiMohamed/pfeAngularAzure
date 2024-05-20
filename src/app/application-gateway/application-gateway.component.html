@@ -25,21 +25,17 @@
     </div>
     <div class="form-group">
       <label for="resourceGroup">Resource Group</label>
-      <select class="form-control" id="resourceGroup" formControlName="resourceGroup">
-        <option *ngFor="let resourceGroup of resourceGroups" [ngValue]="resourceGroup">{{ resourceGroup?.name }}</option>
+      <select class="form-control" id="resourceGroupe" formControlName="resourceGroupe">
+        <option *ngFor="let resourceGroup of resourceGroups" [value]="resourceGroup.id">{{ resourceGroup.name }}</option>
       </select>
-      <div *ngIf="applicationGatewayForm.get('resourceGroup')?.invalid && applicationGatewayForm.get('resourceGroup')?.touched" class="text-danger">
-        Resource Group is required
-      </div>
+     
     </div>
     <div class="form-group">
       <label for="subnet">Subnet</label>
       <select formControlName="subnet" id="subnet" class="form-control">
         <option *ngFor="let subnet of subnets" [value]="subnet.id">{{ subnet.name }}</option>
       </select>
-      <div *ngIf="applicationGatewayForm.get('subnet')?.invalid && applicationGatewayForm.get('subnet')?.touched" class="text-danger">
-        Subnet is required
-      </div>
+      
     </div>
     <div class="form-group form-check">
       <input type="checkbox" class="form-check-input" id="autoscaling" formControlName="autoscaling">
@@ -68,6 +64,6 @@
 <div class="modal-footer">
  
   <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close</button>
-  <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!applicationGatewayForm.valid">Add</button>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Add</button>
 </div>
 </div>

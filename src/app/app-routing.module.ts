@@ -24,6 +24,7 @@ import { DiskComponent } from './Admin/disk/disk.component';
 
 import { DragDropeyaaaComponent } from './drag-dropArchitecture/drag-dropArchitecture';
 import { ArchitectureDesignComponent } from './architecture-design/architecture-design.component';
+import { ArchitComponent } from './archit/archit.component';
 
 
 
@@ -32,7 +33,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent ,
   children: [
      { path: 'profile', component: ProfileComponent },
-     { path: 'architecture', component: ArhcitectureComponent },
+     { path: 'architecture', component: ArchitComponent },
      { path: 'regionet', component: RegionComponent },
      { path: 'disks', component: DiskComponent },
      { path: 'subnet', component: SubnetComponent },
@@ -58,8 +59,9 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: 'tajrba2', component: DragDropeyaaaComponent },
   { path: 'design', component: ArchitectureDesignComponent },
+  { path: 'architectures', component: ArchitComponent },
   { path: 'architecture', component: ArhcitectureComponent },
-  { path: '', redirectTo: 'landing', pathMatch: 'full' }
+  { path: '**', redirectTo: 'landing', pathMatch: 'full' }
 ];
 
 @NgModule({

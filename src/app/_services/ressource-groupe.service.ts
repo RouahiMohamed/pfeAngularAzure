@@ -20,5 +20,9 @@ export class RessourceGroupeService {
   getAllResourceGroups(): Observable<any[]> {
     return this.http.get<any[]>(API_URL + 'getAllRessource');
   }
+  updateResourceGroup(id: string, updatedResourceGroup: any): Observable<any> {
+    return this.http.put(API_URL + 'update/' + id, updatedResourceGroup, httpOptions);
+  }
+  
   
 }

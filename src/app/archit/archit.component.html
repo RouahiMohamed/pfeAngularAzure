@@ -1,5 +1,6 @@
 <div class="drag-and-drop-container">
-   <!-- Sidebar avec les composants source -->
+  
+    <!-- Sidebar avec les composants source -->
     <ul
       class="sidebar"
       cdkDropList
@@ -14,6 +15,7 @@
           {{ component.name }}
         </div>
       </li>
+      <button (click)="createArchitecture()">Créer l'architecture</button>
     </ul>
   
     <!-- Espace de conception où les composants sont déposés -->
@@ -42,5 +44,39 @@
         </div>
       </ng-container>
     </div>
+</div>
+    
+<div class="col-lg-8 d-flex align-items-stretch">
+  <div class="card w-100">
+    <div class="card-body p-4">
+      <h5 class="card-title fw-semibold mb-4">Select Code Type</h5>
+      <select [(ngModel)]="selectedCodeType" class="form-select">
+        <option value="pulumi">Pulumi</option>
+        <option value="terraform">Terraform</option>
+      </select>
+    </div>
   </div>
-  <button (click)="saveArchitecture()">Enregistrer l'architecture</button>
+</div>
+
+<div class="col-lg-8 d-flex align-items-stretch" *ngIf="selectedCodeType === 'pulumi'">
+  <div class="card w-100">
+    <div class="card-body p-4">
+      <h5 class="card-title fw-semibold mb-4">PULUMI CODE</h5>
+      <div class="code-area">
+        <textarea placeholder="PULUMI CODE">{{ pulumiCode }}</textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-8 d-flex align-items-stretch" *ngIf="selectedCodeType === 'terraform'">
+  <div class="card w-100">
+    <div class="card-body p-4">
+      <h5 class="card-title fw-semibold mb-4">TERRAFORM CODE</h5>
+      <div class="code-area">
+        <textarea placeholder="TERRAFORM CODE">{{ terraformCode }}</textarea>
+      </div>
+    </div>
+  </div>
+</div>
+

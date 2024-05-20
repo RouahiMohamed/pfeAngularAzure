@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SubnetService } from '../_services/subnet.service';
 import { StorageService } from '../_services/storage.service';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { VirtualNetworkService } from '../_services/virtual-network.service';
+import { FormDataService } from '../_services/form-data.service';
+import { ArchitectureDataService } from '../_services/architecture-data-service.service';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-subnet',
@@ -14,10 +17,12 @@ export class SubnetComponent implements OnInit {
   subnetForm: FormGroup;
   currentUser: any;
   virtualNetworks: any[] = [];
-  constructor(private formBuilder: FormBuilder,public modalRef: MdbModalRef<SubnetComponent> ,private virtualNetworkService: VirtualNetworkService,private subnetService: SubnetService,  private storageService: StorageService) {
+  @Input() component: any; 
+  @Input() placedComponents: any[] = [];  
+  constructor(private architectureDataService:ArchitectureDataService,private formBuilder: FormBuilder,public modalRef: MdbModalRef<SubnetComponent> ,private virtualNetworkService: VirtualNetworkService,private subnetService: SubnetService,  private storageService: StorageService, private formDataService: FormDataService,private localStorage: LocalStorageService ) {
     this.subnetForm = this.formBuilder.group({
       name: new FormControl('', Validators.required) ,
-      address: new FormControl('', Validators.required) ,
+      adress: new FormControl('', Validators.required) ,
       user: new FormControl('', Validators.required) ,
       virtualNetworks: [[]]
     });
@@ -25,26 +30,33 @@ export class SubnetComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadVirtualNetwork();
-    this.currentUser = this.storageService.getUser(); // Get the logged-in user
-    // Initialize the 'user' field with the ID of the logged-in user
+    this.currentUser = this.storageService.getUser(); 
     if (this.currentUser && this.currentUser.id) {
       this.subnetForm.get('user')?.setValue(this.currentUser.id);
     }
-  }
-  loadVirtualNetwork(): void {
-    this.virtualNetworkService.getAllVirtualNetworks().subscribe(data => {
-      this.virtualNetworks = data;
-    });
-  }
-  onSubmit(): void {
-    if (this.subnetForm.valid) {
-      const formValue = this.subnetForm.value;
-      console.log(formValue);
-      // Pass all three required arguments to createSubnet method
-      this.subnetService.createSubnet(formValue.name, formValue.address,  formValue.virtualNetworks ,formValue.user).subscribe(result => {
-        console.log('Subnet Created', result);
-        this.modalRef.close(true); // Reset the form after successful submission
-      });
+    const storedData = this.localStorage.retrieve('subnetData' + this.component.id);
+    if (storedData) {
+      this.subnetForm.patchValue(storedData);
+    } else {
+      this.subnetForm.reset();
     }
   }
+  loadVirtualNetwork(): void {
+    this.virtualNetworks = this.placedComponents.filter
+    (component => component.type === 'Virtual Network');
+  }
+   
+  onSubmit() {
+    const formData = this.subnetForm.value;
+    
+try {
+  // Use the component's id to store its data in local storage
+  this.localStorage.store('subnetData' + this.component.id, formData);
+  console.log(this.component.id, formData);
+} catch (error) {
+  console.error('Error storing data in local storage:', error);
+}
+this.modalRef.close();
+
+}
 }

@@ -27,9 +27,7 @@
           <option value="">Sélectionnez une machine virtuelle</option>
           <option *ngFor="let vm of virtualMachines" [value]="vm.id">{{ vm.name }}</option>
         </select>
-        <div *ngIf="VmssForm.get('virtualMachine')?.invalid && VmssForm.get('virtualMachine')?.touched" class="invalid-feedback">
-          La sélection d'une machine virtuelle est requise.
-        </div>
+       
       </div>
 
     </form>
@@ -37,7 +35,7 @@
   <div class="modal-footer">
    
     <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close</button>
-    <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!VmssForm.valid">Add</button>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Add</button>
   </div>
   </div>
   

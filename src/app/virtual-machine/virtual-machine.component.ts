@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VirtualMachineService } from '../_services/virtual-machine.service';
 import { RegionService } from '../_services/region.service';
@@ -8,6 +8,9 @@ import { VMImageService } from '../_services/images.service';
 import { SubnetService } from '../_services/subnet.service';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { StorageService } from '../_services/storage.service';
+import { FormDataService } from '../_services/form-data.service';
+import { ArchitectureDataService } from '../_services/architecture-data-service.service';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-virtual-machine',
@@ -22,15 +25,21 @@ export class VirtualMachineComponent implements OnInit {
   resourceGroups: any[] = [];
   currentUser: any;
   subnets: any[] = [];
+  @Input() component: any; 
+  @Input() placedComponents: any[] = []; 
   @Output() vmCreated = new EventEmitter<any>();
-  constructor(private virtualMachineService: VirtualMachineService, private regionService: RegionService, private diskService: DiskSizeService,
-    public modalRef: MdbModalRef<VirtualMachineComponent>, private resourceGroupService: RessourceGroupeService, private imageService: VMImageService,
-    
-    private subnetService: SubnetService, private storageService: StorageService) {
+  @Output() dataSaved = new EventEmitter<any>();
+  constructor(private regionService: RegionService,
+     private diskService: DiskSizeService,
+    public modalRef: MdbModalRef<VirtualMachineComponent>,
+     private imageService: VMImageService,
+   
+    private localStorage: LocalStorageService, 
+    private storageService: StorageService) {
     this.virtualMachineForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      idRegion: new FormControl('', Validators.required),
-      idRessourceGroupe: new FormControl('', Validators.required),
+      region: new FormControl('', Validators.required),
+      resourceGroupe: new FormControl('', Validators.required),
       idImage: new FormControl('', Validators.required),
       subnet: new FormControl('', Validators.required),
       username: new FormControl('', Validators.required),
@@ -53,11 +62,16 @@ export class VirtualMachineComponent implements OnInit {
     if (this.currentUser && this.currentUser.id) {
       this.virtualMachineForm.get('user')?.setValue(this.currentUser.id);
     }
+    const storedData = this.localStorage.retrieve('virtualMachineData' + this.component.id);
+    if (storedData) {
+      this.virtualMachineForm.patchValue(storedData);
+    } else {
+      this.virtualMachineForm.reset();
+    }
   }
   loadSubnets(): void {
-    this.subnetService.getAllSubnets().subscribe(data => {
-      this.subnets = data;
-    });
+    this.subnets = this.placedComponents.filter
+    (component => component.type === 'Subnet');
   }
   loadRegions(): void {
     this.regionService.getAllRegions().subscribe(data => {
@@ -70,45 +84,35 @@ export class VirtualMachineComponent implements OnInit {
     });
   }
   onRegionChange(): void {
-    const selectedRegionId = this.virtualMachineForm.value.idRegion;
+    const selectedRegionId = this.virtualMachineForm.value.region;
     if (selectedRegionId) {
       this.diskService.getDiskSizesByRegionId(selectedRegionId).subscribe(data => {
         this.diskSizes = data;
       });
     }
+   
   }
-
   loadResourceGroups(): void {
-    this.resourceGroupService.getAllResourceGroups().subscribe(data => {
-      this.resourceGroups = data;
-    });
+    this.resourceGroups = this.placedComponents.filter
+    (component => component.type === 'ressourceGroup');
   }
+  onSubmit() {
+    const formData = this.virtualMachineForm.value;
+    const resourceGroupData = this.localStorage.retrieve('resourceGroupData' + formData.resourceGroupe);
+    formData.resourceGroupe = resourceGroupData;
+    
+    const subnetData = this.localStorage.retrieve('subnetData' + formData.subnet);
+    formData.subnet = subnetData;
+    
+try {
+  // Use the component's id to store its data in local storage
+  this.localStorage.store('virtualMachineData' + this.component.id, formData);
+  console.log(this.component.id, formData);
+} catch (error) {
+  console.error('Error storing data in local storage:', error);
+}
+this.modalRef.close();
 
-  onSubmit(): void {
-    if (this.virtualMachineForm.valid) {
-      const formValue = this.virtualMachineForm.value;
-      console.log(formValue);
-      this.virtualMachineService.createVirtualMachine(
-        formValue.name,
-        formValue.idRegion,
-        formValue.idRessourceGroupe,
-        formValue.subnet,
-        formValue.idImage,
-        formValue.username,
-        formValue.password,
-        formValue.idDiskSize,
-        formValue.user
-      ).subscribe({
-        next: (result) => console.log('Virtual Machine Created', result),
-        error: (error) => console.error('Error creating virtual machine', error)
-      });
-      this.modalRef.close(true);
-      this.vmCreated.emit(formValue);
-    }
-  }
-  
- 
-
-
+}
   
 }
