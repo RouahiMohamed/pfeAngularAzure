@@ -14,8 +14,8 @@ export class RessourceGroupeService {
 
   constructor(private http: HttpClient) {}
 
-  createResourceGroup(region: any, name: string, user: any): Observable<any> {
-    return this.http.post(API_URL + 'add', { region, name , user}, httpOptions);
+  createResourceGroup(rg: any): Observable<any> {
+    return this.http.post(API_URL + 'add', rg, httpOptions);
   }
   getAllResourceGroups(): Observable<any[]> {
     return this.http.get<any[]>(API_URL + 'getAllRessource');

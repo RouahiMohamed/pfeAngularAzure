@@ -1,6 +1,4 @@
-import { AddDiskComponent } from '../Admin/add-disk/add-disk.component';
 import { MatDialog } from '@angular/material/dialog';
-
 import { ComponentType } from '@angular/cdk/portal';
 import { RessourceGroupComponent } from '../ressource-group/ressource-group.component';
 import { SubnetComponent } from '../subnet/subnet.component';

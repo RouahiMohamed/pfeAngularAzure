@@ -24,7 +24,9 @@ export class ArchitectureService {
   getArchitecture(id: string): Observable<any> {
     return this.http.get(API_URL + 'getById/' + id, httpOptions);
   }
-
+  updateArchitecture(id: string, architectureData: any): Observable<any> {
+    return this.http.put(API_URL +'update/'+ id, architectureData, httpOptions);
+  }
   getAllArchitectures(): Observable<any> {
     return this.http.get(API_URL + 'getAll', httpOptions);
   }

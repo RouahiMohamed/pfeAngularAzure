@@ -1,13 +1,10 @@
-import { AddDiskComponent } from '../Admin/add-disk/add-disk.component';
-import { MatDialog } from '@angular/material/dialog';
-import { AddOsMachineComponent } from '../Admin/add-os-machine/add-os-machine.component';
 import { ComponentType } from '@angular/cdk/portal';
 import { RessourceGroupComponent } from '../ressource-group/ressource-group.component';
 import { SubnetComponent } from '../subnet/subnet.component';
 import { VmssComponent } from '../vmss/vmss.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { CdkDragDrop, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragMove, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ApplicationGatewayComponent } from '../application-gateway/application-gateway.component';
 import { VirtualMachineComponent } from '../virtual-machine/virtual-machine.component';
 import { VirtualNetworkComponent } from '../virtual-network/virtual-network.component';
@@ -24,9 +21,11 @@ interface Components  {
   styleUrl: './archit.component.css'
 })
 export class ArchitComponent implements OnInit{
+  @ViewChild('designSpaceList') designSpaceList!: CdkDropList;
 currentUser: any;
 pulumiCode!: string;
 terraformCode!: string;
+architectureId!: string ;
 selectedCodeType: string = 'pulumi'; // Default selected type
   generateId() {
     return '_' + Math.random().toString(36).substr(2, 9);
@@ -80,17 +79,32 @@ selectedCodeType: string = 'pulumi'; // Default selected type
         );
         return;
     }
+    if (!component.id) {
+      component.id = this.generateId();
+    }
     this.modalRef = this.modalService.open(modalComponent, {
       data: { component: component, placedComponents: this.placedComponents }
     });  
     }
 
-  onDragMoved(event: CdkDragMove<any>, component: any) {
-    component.x = event.pointerPosition.x;
-    component.y = event.pointerPosition.y;
-  }
+    onDragMoved(event: CdkDragMove<any>, component: any) {
+      const designSpaceRect = this.designSpaceList.element.nativeElement.getBoundingClientRect();
+      let x = event.pointerPosition.x;
+      let y = event.pointerPosition.y;
+    
+      // Vérifiez si x et y sont à l'intérieur de l'espace de conception
+      if (x >= designSpaceRect.left && x <= designSpaceRect.right && y >= designSpaceRect.top && y <= designSpaceRect.bottom) {
+        component.x = x;
+        component.y = y;
+      }
+    }
 
   onDrop(event: CdkDragDrop<any[]>): void {
+    const designSpaceRect = this.designSpaceList.element.nativeElement.getBoundingClientRect();
+    const dropPoint = event.dropPoint;
+  
+    // Vérifiez si le point de dépôt est à l'intérieur de l'espace de conception
+    if (dropPoint.x >= designSpaceRect.left && dropPoint.x <= designSpaceRect.right && dropPoint.y >= designSpaceRect.top && dropPoint.y <= designSpaceRect.bottom) {
     if (event.previousContainer === event.container) {
       // Move item in array
       moveItemInArray(
@@ -134,6 +148,7 @@ selectedCodeType: string = 'pulumi'; // Default selected type
       this.placedComponents.splice(event.currentIndex, 0, clone);
     }
   }
+  }
   forceUpdate() {
     // Method to trigger change detection manually if needed
     this.placedComponents = [...this.placedComponents];
@@ -142,7 +157,7 @@ selectedCodeType: string = 'pulumi'; // Default selected type
     // Implement your rotation logic here (optional)
     return 'rotate(0deg)';
   }
-  createArchitecture() {
+  createArchitecture():void {
     const architecture = {
       name: 'My Architecture',  
       dateCreation: new Date(),
@@ -158,9 +173,12 @@ selectedCodeType: string = 'pulumi'; // Default selected type
     for (const component of this.placedComponents) {
           switch (component.type) {
         case 'ressourceGroup':
-          const formDat = this.localStorage.retrieve('resourceGroupData' + component.id);
-          formDat.user = this.currentUser?.id;
-          architecture.resourceGroups.push(formDat);
+          let formDat = this.localStorage.retrieve('resourceGroupData' + component.id);
+          if (formDat) {
+            formDat.id= component.id, 
+            formDat.user= this.currentUser?.id;
+            architecture.resourceGroups.push(formDat);
+          }
           break;
         case 'Virtual machine':
           const formDataa = this.localStorage.retrieve('virtualMachineData' + component.id);
@@ -175,6 +193,7 @@ selectedCodeType: string = 'pulumi'; // Default selected type
         case 'Virtual network':
           const formDa = this.localStorage.retrieve('virtualNetworkData' + component.id);
           formDa.user = this.currentUser?.id;
+
           architecture.virtualNetworks.push(formDa);
           break;
         case 'Subnet':
@@ -189,18 +208,28 @@ selectedCodeType: string = 'pulumi'; // Default selected type
           break;
             }
     }
-    this.architectureService.createArchitecture(architecture).subscribe(response => {
-      console.log('Architecture created successfully:', response);
-      // Récupérer l'ID de l'architecture créée
-      const architectureId = response.id;
-      // Utiliser l'ID pour récupérer l'architecture complète
-      this.architectureService.getArchitecture(architectureId).subscribe(architecture => {
-        // Générer le code Pulumi pour l'architecture récupérée
-        this.generatePulumiCode(architecture);
-        this.generateTerraformCode(architecture);
+    if (this.architectureId) {
+      this.architectureService.updateArchitecture(this.architectureId, architecture).subscribe(response => {
+        console.log('Architecture updated successfully:', response);
+        this.refreshArchitecture(response.id);
+      }, error => {
+        console.error('Error updating architecture:', error);
       });
-    }, error => {
-      console.error('Error creating architecture:', error);
+    } else {
+      this.architectureService.createArchitecture(architecture).subscribe(response => {
+        console.log('Architecture created successfully:', response);
+        this.architectureId = response.id;
+        this.refreshArchitecture(response.id);
+      }, error => {
+        console.error('Error creating architecture:', error);
+      });
+    }
+  }
+
+  refreshArchitecture(id: string) {
+    this.architectureService.getArchitecture(id).subscribe(architecture => {
+      this.generatePulumiCode(architecture);
+      this.generateTerraformCode(architecture);
     });
   }
   generateTerraformCode(architecture: any) {

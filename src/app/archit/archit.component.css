@@ -61,13 +61,17 @@
     background-color: #02e1ff;
     overflow-x: auto;
   }
-  
-  
+  .code-area {
+    padding: 20px;
+    background: #ecf0f1;
+    height: calc(100vh - 52px); /* Adjust based on toolbar height */
+    box-sizing: border-box;
+  }
+
   textarea {
-    width: 100%; /* Réduisez la largeur à votre convenance, ici j'ai mis 80% */
-    height: 100%;
-    background-color: #000; /* Couleur d'arrière-plan noire */
-    color: #fff; /* Couleur de texte blanche */
+    width: 80%; /* Ajustez cette valeur selon vos besoins */
+    height: 90%;
+    background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
     font-family: 'Courier New', monospace;
