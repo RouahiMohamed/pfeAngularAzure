@@ -68,15 +68,23 @@
     </div>
   </div>
 </div>
-
 <div class="col-lg-8 d-flex align-items-stretch" *ngIf="selectedCodeType === 'terraform'">
   <div class="card w-100">
-    <div class="card-body p-4">
-      <h5 class="card-title fw-semibold mb-4">TERRAFORM CODE</h5>
-      <div class="code-area">
-        <textarea placeholder="TERRAFORM CODE">{{ terraformCode }}</textarea>
+      <div class="card-body p-4">
+          <h5 class="card-title fw-semibold mb-4">TERRAFORM CODE</h5>
+          <div class="code-area">
+              <textarea placeholder="TERRAFORM CODE" [(ngModel)]="terraformCode"></textarea>
+          </div>
       </div>
-    </div>
+      <button class="btn btn-primary mt-3" (click)="estimateCosts()">Estimer les coûts</button>
+      <div *ngIf="costEstimation">
+          <h5 class="mt-4">Estimation des coûts</h5>
+          <div class="cost-estimation-container">
+              <pre>{{ costEstimation | json }}</pre>
+          </div>
+      </div>
   </div>
 </div>
+
+
 

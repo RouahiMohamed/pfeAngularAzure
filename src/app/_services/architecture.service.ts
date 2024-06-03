@@ -25,7 +25,7 @@ export class ArchitectureService {
     return this.http.get(API_URL + 'getById/' + id, httpOptions);
   }
   updateArchitecture(id: string, architectureData: any): Observable<any> {
-    return this.http.put(API_URL +'update/'+ id, architectureData, httpOptions);
+    return this.http.put(API_URL +`update/${id}`, architectureData, httpOptions);
   }
   getAllArchitectures(): Observable<any> {
     return this.http.get(API_URL + 'getAll', httpOptions);
@@ -40,4 +40,8 @@ export class ArchitectureService {
   generateTerraformCode(architecture: any): Observable<any> {
     return this.http.post(API_URL +'generate-terraform-code', architecture,{ responseType: 'text' });
   }
+  estimateCosts(terraformCode: string): Observable<any> {
+    return this.http.post(API_URL + 'estimateCost', { terraformDirectory: terraformCode }, httpOptions);
+}
+
 }

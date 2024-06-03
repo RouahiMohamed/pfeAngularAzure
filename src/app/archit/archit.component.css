@@ -80,4 +80,19 @@
     resize: none;
 }
 
-  
+.cost-estimation-container {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+.cost-estimation-container pre {
+  white-space: pre-wrap; /* Ensure long lines wrap */
+  word-wrap: break-word; /* Ensure long words break */
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

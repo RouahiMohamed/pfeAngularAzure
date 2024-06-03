@@ -11,6 +11,7 @@ import { VirtualNetworkComponent } from '../virtual-network/virtual-network.comp
 import { LocalStorageService } from 'ngx-webstorage';
 import { ArchitectureService } from '../_services/architecture.service';
 import { StorageService } from '../_services/storage.service';
+import { HttpClient } from '@angular/common/http';
 
 interface Components  {
   name: string;
@@ -26,7 +27,8 @@ currentUser: any;
 pulumiCode!: string;
 terraformCode!: string;
 architectureId!: string ;
-selectedCodeType: string = 'pulumi'; // Default selected type
+selectedCodeType: string = 'pulumi'; 
+costEstimation: any;
   generateId() {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
@@ -41,8 +43,8 @@ selectedCodeType: string = 'pulumi'; // Default selected type
   modalRef: MdbModalRef<any> | null = null;
   placedComponents: any[] = [];
   constructor(private localStorage: LocalStorageService ,private architectureService: ArchitectureService,
-        private modalService: MdbModalService, private storageService: StorageService
-  ) {}
+        private modalService: MdbModalService, private storageService: StorageService,
+        private http: HttpClient) {}
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser();
   }
@@ -181,30 +183,44 @@ selectedCodeType: string = 'pulumi'; // Default selected type
           }
           break;
         case 'Virtual machine':
-          const formDataa = this.localStorage.retrieve('virtualMachineData' + component.id);
+          let formDataa = this.localStorage.retrieve('virtualMachineData' + component.id);
+          if (formDataa) {
+            formDataa.id= component.id,
           formDataa.user = this.currentUser?.id;
           architecture.virtualMachines.push(formDataa);
+        }
           break;
         case 'Application gateway':
-          const formDataaa = this.localStorage.retrieve('applicationGatewayData' + component.id);
+          let formDataaa = this.localStorage.retrieve('applicationGatewayData' + component.id);
+          if (formDataaa) {
+            formDataaa.id= component.id,
           formDataaa.user = this.currentUser?.id;
           architecture.applicationGateways.push(formDataaa);
+        }
           break;
         case 'Virtual network':
-          const formDa = this.localStorage.retrieve('virtualNetworkData' + component.id);
+          let formDa = this.localStorage.retrieve('virtualNetworkData' + component.id);
+          if (formDa) {
+            formDa.id= component.id,
           formDa.user = this.currentUser?.id;
-
           architecture.virtualNetworks.push(formDa);
+        }
           break;
         case 'Subnet':
-          const formD = this.localStorage.retrieve('subnetData' + component.id);
+          let formD = this.localStorage.retrieve('subnetData' + component.id);
+          if (formD) {
+            formD.id= component.id,
           formD.user = this.currentUser?.id;
           architecture.subnets.push(formD);
+        }
           break;
         case 'Vmss':
-          const formData = this.localStorage.retrieve('vmssData' + component.id);
+          let formData = this.localStorage.retrieve('vmssData' + component.id);
+          if (formData) {
+            formData.id= component.id,
           formData.user = this.currentUser?.id;
           architecture.vmsses.push(formData);
+        }
           break;
             }
     }
@@ -215,7 +231,7 @@ selectedCodeType: string = 'pulumi'; // Default selected type
       }, error => {
         console.error('Error updating architecture:', error);
       });
-    } else {
+    } else  {
       this.architectureService.createArchitecture(architecture).subscribe(response => {
         console.log('Architecture created successfully:', response);
         this.architectureId = response.id;
@@ -232,18 +248,32 @@ selectedCodeType: string = 'pulumi'; // Default selected type
       this.generateTerraformCode(architecture);
     });
   }
-  generateTerraformCode(architecture: any) {
-    this.architectureService.generateTerraformCode(architecture).subscribe(terraformCode => {
-      this.terraformCode = terraformCode;
-      console.log(terraformCode);
-    });
-  }
+ 
 generatePulumiCode(architecture: any) {
   this.architectureService.generatePulumiCode(architecture).subscribe(pulumiCode => {
     this.pulumiCode = pulumiCode;
     console.log(pulumiCode);
   });
 }
+generateTerraformCode(architecture: any) {
+  this.architectureService.generateTerraformCode(architecture).subscribe(terraformCode => {
+    this.terraformCode = terraformCode;
+    console.log(terraformCode);
+  });
+}
+estimateCosts() {
+  const body = {
+      terraformCode: this.terraformCode
+  };
+  this.http.post('http://localhost:8093/api/architectures/estimateCost', body, { responseType: 'text' })
+      .subscribe(response => {
+          this.costEstimation = response;
+      }, error => {
+          console.error('Erreur lors de l\'estimation des coûts', error);
+      });
+}
+
+
 }
 
 
