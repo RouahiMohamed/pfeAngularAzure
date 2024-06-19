@@ -25,6 +25,7 @@ import { DiskComponent } from './Admin/disk/disk.component';
 import { DragDropeyaaaComponent } from './drag-dropArchitecture/drag-dropArchitecture';
 import { ArchitectureDesignComponent } from './architecture-design/architecture-design.component';
 import { ArchitComponent } from './archit/archit.component';
+import { ListArchitComponent } from './list-archit/list-archit.component';
 
 
 
@@ -38,11 +39,14 @@ const routes: Routes = [
      { path: 'disks', component: DiskComponent },
      { path: 'subnet', component: SubnetComponent },
      { path: 'os', component: OsMachineComponent },
+     { path: 'List', component: ListArchitComponent },
      { path: 'design', component: ArchitectureDesignComponent },
      { path: 'tajrba2', component: DragDropeyaaaComponent },
      { path: 'vm', component: VirtualMachineComponent },
      { path: 'dashbord', component: DashbordComponent }]},
   { path: 'landing', component: LandingpageComponent },
+  { path: 'List', component: ListArchitComponent },
+  { path: 'dashbord', component: DashbordComponent },
   { path: 'disks', component: DiskComponent },
   { path: 'login', component: LoginComponent },
   { path: 'regionet', component: RegionComponent },

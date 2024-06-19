@@ -25,7 +25,6 @@ export class AddDiskComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRegions();
-   
   }
 
   loadRegions(): void {

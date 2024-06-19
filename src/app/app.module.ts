@@ -54,7 +54,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ArchitectureDesignComponent } from './architecture-design/architecture-design.component';
 import { ArchitComponent } from './archit/archit.component';
 import { LocalStorageService, NgxWebstorageModule } from 'ngx-webstorage';
-
+import { ListArchitComponent } from './list-archit/list-archit.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { TerraformCodeDialogComponent } from './terraform-code-dialog/terraform-code-dialog.component';
 
 
 @NgModule({
@@ -90,6 +93,8 @@ import { LocalStorageService, NgxWebstorageModule } from 'ngx-webstorage';
     SidebarComponent,
     ArchitectureDesignComponent,
     ArchitComponent,
+    ListArchitComponent,
+    TerraformCodeDialogComponent,
    
     
   ],
@@ -98,6 +103,9 @@ import { LocalStorageService, NgxWebstorageModule } from 'ngx-webstorage';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

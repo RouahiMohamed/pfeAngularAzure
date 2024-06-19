@@ -34,38 +34,22 @@ data-sidebar-position="fixed" data-header-position="fixed">
           <span class="hide-menu">Architecture</span>
         </li>
         <li class="sidebar-item" *ngIf="!isAdmin">
-          <a class="sidebar-link" routerLink="design" aria-expanded="false">
+          <a class="sidebar-link" routerLink="architecture" aria-expanded="false">
             <span>
               <i class="ti ti-user"></i>
             </span>
             <span class="hide-menu">Create</span>
           </a>
         </li>
-        <li class="sidebar-item" *ngIf="!isAdmin">
-          <a class="sidebar-link" routerLink="subnet" aria-expanded="false">
-            <span>
-              <i class="ti ti-user"></i>
-            </span>
-            <span class="hide-menu">subnet</span>
-          </a>
-        </li>
-        <li class="sidebar-item" *ngIf="!isAdmin">
-          <a class="sidebar-link" routerLink="vm" aria-expanded="false">
-            <span>
-              <i class="ti ti-user"></i>
-            </span>
-            <span class="hide-menu">vm</span>
-          </a>
-        </li>
-        <li class="sidebar-item" *ngIf="!isAdmin">
-          <a class="sidebar-link" routerLink="architecture" aria-expanded="false">
+                       <li class="sidebar-item" *ngIf="!isAdmin">
+          <a class="sidebar-link" routerLink="List" aria-expanded="false">
             <span>
               <i class="ti ti-user"></i>
             </span>
             <span class="hide-menu">My List</span>
           </a>
         </li>
-
+        
         <!-- Admin -->
         <li class="nav-small-cap" *ngIf="isAdmin">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -122,11 +106,6 @@ data-sidebar-position="fixed" data-header-position="fixed">
     <span class="hide-menu">Logout</span>
   </a>
 </li>
-
-
-
- 
-  
 
 
 

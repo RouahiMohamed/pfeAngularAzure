@@ -29,6 +29,7 @@ terraformCode!: string;
 architectureId!: string ;
 selectedCodeType: string = 'pulumi'; 
 costEstimation: any;
+architectureName: string = '';
   generateId() {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
@@ -161,7 +162,7 @@ costEstimation: any;
   }
   createArchitecture():void {
     const architecture = {
-      name: 'My Architecture',  
+      name: this.architectureName,  
       dateCreation: new Date(),
       user: this.currentUser?.id,
       resourceGroups: [] as any[],  

@@ -15,7 +15,8 @@
           {{ component.name }}
         </div>
       </li>
-      <button (click)="createArchitecture()">Créer l'architecture</button>
+      <input type="text" [(ngModel)]="architectureName" placeholder="Nom de l'architecture" class="form-control mb-2">
+      <button class="btn btn-primary mb-3" (click)="createArchitecture()"> Créer l'architecture</button>
     </ul>
   
     <!-- Espace de conception où les composants sont déposés -->
